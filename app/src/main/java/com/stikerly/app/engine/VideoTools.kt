@@ -1,5 +1,6 @@
 package com.stikerly.app.engine
 
+import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -9,6 +10,8 @@ import android.media.MediaFormat
 import android.media.MediaMetadataRetriever
 import android.media.MediaMuxer
 import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
 import java.io.File
@@ -98,6 +101,32 @@ object VideoTools {
                 r.release()
             } catch (e: Exception) {
             }
+        }
+    }
+
+    /** Simpan MP4 ke galeri (Movies/Stickerly) supaya bisa dipilih di editor stiker WhatsApp. Butuh Android 10+. */
+    fun saveToGallery(ctx: Context, src: File): Boolean {
+        if (Build.VERSION.SDK_INT < 29) return false
+        return try {
+            val values = ContentValues().apply {
+                put(MediaStore.Video.Media.DISPLAY_NAME, src.name)
+                put(MediaStore.Video.Media.MIME_TYPE, "video/mp4")
+                put(MediaStore.Video.Media.RELATIVE_PATH, "Movies/Stickerly")
+                put(MediaStore.Video.Media.IS_PENDING, 1)
+            }
+            val resolver = ctx.contentResolver
+            val uri = resolver.insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, values)
+            if (uri == null) {
+                false
+            } else {
+                resolver.openOutputStream(uri)?.use { out -> src.inputStream().use { it.copyTo(out) } }
+                values.clear()
+                values.put(MediaStore.Video.Media.IS_PENDING, 0)
+                resolver.update(uri, values, null, null)
+                true
+            }
+        } catch (e: Exception) {
+            false
         }
     }
 

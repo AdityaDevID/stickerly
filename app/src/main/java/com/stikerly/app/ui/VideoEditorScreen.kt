@@ -208,7 +208,7 @@ fun VideoEditorScreen(initialSound: Boolean, onBack: () -> Unit) {
                     }
                 }
                 Text(
-                    "Stiker WhatsApp tidak menyimpan suara di dalam file. Suara diekspor sebagai video MP4 terpisah.",
+                    "Stiker bersuara dibuat oleh WhatsApp sendiri (fitur baru, baru ada di sebagian pengguna beta Android). Stickerly menyiapkan video bersuaranya, lalu kamu pilih video itu di editor stiker WhatsApp.",
                     fontSize = 12.sp,
                     color = Brand.GreenDark,
                 )
@@ -261,6 +261,26 @@ fun VideoEditorScreen(initialSound: Boolean, onBack: () -> Unit) {
                         ChunkyButton("Simpan ke Paket", onClick = { showSave = true })
                         val mp4 = res.mp4
                         if (mp4 != null) {
+                            ChunkyButton(
+                                "Simpan Video ke Galeri",
+                                onClick = {
+                                    scope.launch {
+                                        val ok = withContext(Dispatchers.IO) { VideoTools.saveToGallery(ctx, mp4) }
+                                        Toast.makeText(
+                                            ctx,
+                                            if (ok) "Tersimpan di Movies/Stickerly ✓" else "Butuh Android 10+. Pakai tombol Bagikan.",
+                                            Toast.LENGTH_LONG,
+                                        ).show()
+                                    }
+                                },
+                                container = Color.White,
+                                contentColor = Brand.Ink,
+                            )
+                            Text(
+                                "Lalu di WhatsApp: Stiker > Buat stiker > pilih video ini > tombol audio > pakai audio asli.",
+                                fontSize = 12.sp,
+                                color = Brand.GreenDark,
+                            )
                             ChunkyButton(
                                 "Bagikan Video Bersuara",
                                 onClick = {

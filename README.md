@@ -11,7 +11,7 @@
 - **Stiker teks**: ketik tulisan, pilih gaya huruf, warna, outline tebal, dan ukuran. Hasilnya stiker transparan 512x512.
 - **Stiker gambar**: ambil dari galeri, geser dan cubit untuk mengatur posisi, lalu pilih bentuk (kotak, membulat, atau lingkaran).
 - **Stiker video (bergerak)**: pilih video, potong sampai 10 detik, dan Stickerly mengubahnya menjadi WebP animasi. Ukuran dijaga di bawah batas WhatsApp (500 KB) dengan menurunkan kualitas dan fps secara otomatis kalau perlu.
-- **Video bersuara**: stiker WhatsApp tidak menyimpan suara di dalam filenya, jadi Stickerly mengekspor potongan video yang sama sebagai MP4 bersuara yang bisa dibagikan terpisah.
+- **Video bersuara**: stiker bersuara adalah fitur bawaan WhatsApp (baru di sebagian pengguna beta Android) dan belum punya API untuk aplikasi lain. Stickerly menyiapkan potongan video bersuara (MP4), lalu kamu memilihnya di editor stiker WhatsApp dan memakai audio aslinya.
 - **Paket stiker**: simpan stiker ke paket (3 sampai 30 stiker per paket), lalu kirim ke WhatsApp atau WhatsApp Business dengan satu ketukan. Stiker statis dan animasi dipisah per paket sesuai aturan WhatsApp.
 
 ## Tampilan
